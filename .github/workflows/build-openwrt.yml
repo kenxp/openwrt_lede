@@ -28,7 +28,7 @@ env:
   DIY_SH: diy.sh
   SSH_ACTIONS: true
   UPLOAD_BIN_DIR: true
-  UPLOAD_FIRMWARE: true
+  UPLOAD_FIRMWARE: false
   TZ: Asia/Shanghai
 
 jobs:
@@ -74,6 +74,7 @@ jobs:
       if: env.SSH_ACTIONS == 'true'
 
     - name: Download package
+      if: env.SSH_ACTIONS == 'false'
       id: package
       run: |
         cd openwrt
@@ -83,6 +84,7 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Compile the firmware
+      if: env.SSH_ACTIONS == 'false'
       id: compile
       run: |
         cd openwrt
